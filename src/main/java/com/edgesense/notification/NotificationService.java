@@ -2,10 +2,13 @@ package com.edgesense.notification;
 
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.core.client.config.ClientOverrideConfiguration;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.PublishRequest;
 import software.amazon.awssdk.services.sns.model.PublishResponse;
+
+import java.time.Duration;
 
 @Service
 public class NotificationService {
@@ -17,6 +20,10 @@ public class NotificationService {
         this.snsClient = SnsClient.builder()
                 .region(Region.EU_WEST_1)
                 .credentialsProvider(DefaultCredentialsProvider.create())
+                .overrideConfiguration(ClientOverrideConfiguration.builder()
+                        .apiCallTimeout(Duration.ofSeconds(3))
+                        .apiCallAttemptTimeout(Duration.ofSeconds(2))
+                        .build())
                 .build();
     }
 
