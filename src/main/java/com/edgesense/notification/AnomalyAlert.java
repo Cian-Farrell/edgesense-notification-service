@@ -1,5 +1,8 @@
 package com.edgesense.notification;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AnomalyAlert {
 
     private double temp;

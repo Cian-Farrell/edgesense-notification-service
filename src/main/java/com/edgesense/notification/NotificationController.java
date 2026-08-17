@@ -17,7 +17,14 @@ public class NotificationController {
 
     @PostMapping("/anomaly")
     public ResponseEntity<String> sendAnomalyAlert(@RequestBody AnomalyAlert alert) {
-        notificationService.sendAnomalyAlert(alert.getTemp(), alert.getHumidity(), alert.getTimeStamp());
-        return ResponseEntity.ok("Anomaly alert sent successfully");
+        System.out.println("Received anomaly alert request: temp=" + alert.getTemp() + ", humidity=" + alert.getHumidity());
+        try {
+            notificationService.sendAnomalyAlert(alert.getTemp(), alert.getHumidity(), alert.getTimeStamp());
+            System.out.println("Anomaly alert sent successfully");
+            return ResponseEntity.ok("Anomaly alert sent successfully");
+        } catch (Exception e) {
+            System.out.println("Failed to send anomaly alert: " + e.getMessage());
+            throw e;
+        }
     }
 }
